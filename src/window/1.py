@@ -47,8 +47,8 @@ class Main:
                 self.__screen.refresh()
             elif curses.KEY_DOWN == key:
                 y, x = self.__win2.getyx()
-#                y += 1 if y < curses.LINES-self.__win2.getmaxyx()[0] else 0
-                y += 1
+                y += 1 if y < curses.LINES-self.__win2.getmaxyx()[0] else 0
+#                y += 1
                 self.__panel2.move(y, x)
 #                self.__panel2.move(20, x)
                 curses.panel.update_panels()
