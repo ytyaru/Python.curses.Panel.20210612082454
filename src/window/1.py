@@ -3,6 +3,7 @@
 import os, curses, curses.panel
 
 # stdscrのsubwin()をpanelにする。キーで階層を入れ替える。
+# newwinをpanelにして重ね合わせる。矢印キーで座標移動し、PgUp/PgDnでZ軸を入れ替える。
 class Main:
     def __init__(self, screen, msg, color_index=1):
         self.__screen = screen
@@ -33,6 +34,7 @@ class Main:
             for i in range(1, curses.COLORS):
                 self.__win1.addstr(str(i).rjust(3), curses.A_REVERSE | curses.color_pair(i))
         except curses.ERR: pass
+        self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
         self.__win2.addstr(7, 0, self.__msg, curses.A_REVERSE | curses.color_pair(self.__color_index))
         curses.panel.update_panels()
         self.__screen.refresh()
@@ -40,34 +42,45 @@ class Main:
         while True:
             key = self.__screen.getch()
             if curses.KEY_UP == key:
-                y, x = self.__win2.getyx()
+#                y, x = self.__win2.getyx()
+                y, x = self.__win2.getbegyx()
                 y -= 1 if 0 < y else 0
-                self.__panel2.move(y, x)
+                self.__panel2.move(y, x) # window.mvwin()
                 curses.panel.update_panels()
+                self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
                 self.__screen.refresh()
             elif curses.KEY_DOWN == key:
-                y, x = self.__win2.getyx()
+#                y, x = self.__win2.getyx()
+                y, x = self.__win2.getbegyx()
                 y += 1 if y < curses.LINES-self.__win2.getmaxyx()[0] else 0
-#                y += 1
                 self.__panel2.move(y, x)
-#                self.__panel2.move(20, x)
                 curses.panel.update_panels()
+                self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
                 self.__screen.refresh()
             elif curses.KEY_LEFT == key:
-                y, x = self.__win2.getyx()
+#                y, x = self.__win2.getyx()
+                y, x = self.__win2.getbegyx()
                 x -= 1 if 0 < x else 0
                 self.__panel2.move(y, x)
                 curses.panel.update_panels()
+                self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
                 self.__screen.refresh()
             elif curses.KEY_RIGHT == key:
-                y, x = self.__win2.getyx()
+#                y, x = self.__win2.getyx()
+                y, x = self.__win2.getbegyx()
                 x += 1 if x < curses.COLS-self.__win2.getmaxyx()[1] else 0
                 self.__panel2.move(y, x)
                 curses.panel.update_panels()
+                self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
                 self.__screen.refresh()
             elif curses.KEY_PPAGE == key or curses.KEY_NPAGE == key:
                 if curses.panel.top_panel() == self.__panel1: self.__panel2.top()
                 else: self.__panel1.top()
+                curses.panel.update_panels()
+                self.__screen.refresh()
+            elif ord('h') == key:
+                if self.__panel2.hidden(): self.__panel2.show()
+                else: self.__panel2.hide()
                 curses.panel.update_panels()
                 self.__screen.refresh()
             else: break

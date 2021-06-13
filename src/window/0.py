@@ -2,7 +2,7 @@
 # coding: utf8
 import os, curses, curses.panel
 
-# stdscrのsubwin()をpanelにする。キーで階層を入れ替える。
+# newwinをpanelにして重ね合わせる。
 class Main:
     def __init__(self, screen, msg, color_index=1):
         self.__screen = screen
