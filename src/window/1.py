@@ -36,13 +36,13 @@ class Main:
         except curses.ERR: pass
         self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
         self.__win2.addstr(7, 0, self.__msg, curses.A_REVERSE | curses.color_pair(self.__color_index))
+        self.__win2.addstr(9, 0, '↑↓←→:move h:hide/show PgUp/PgDn:Z-switch other:quit', curses.color_pair(15))
         curses.panel.update_panels()
         self.__screen.refresh()
     def __input(self):
         while True:
             key = self.__screen.getch()
             if curses.KEY_UP == key:
-#                y, x = self.__win2.getyx()
                 y, x = self.__win2.getbegyx()
                 y -= 1 if 0 < y else 0
                 self.__panel2.move(y, x) # window.mvwin()
@@ -50,7 +50,6 @@ class Main:
                 self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
                 self.__screen.refresh()
             elif curses.KEY_DOWN == key:
-#                y, x = self.__win2.getyx()
                 y, x = self.__win2.getbegyx()
                 y += 1 if y < curses.LINES-self.__win2.getmaxyx()[0] else 0
                 self.__panel2.move(y, x)
@@ -58,7 +57,6 @@ class Main:
                 self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
                 self.__screen.refresh()
             elif curses.KEY_LEFT == key:
-#                y, x = self.__win2.getyx()
                 y, x = self.__win2.getbegyx()
                 x -= 1 if 0 < x else 0
                 self.__panel2.move(y, x)
@@ -66,7 +64,6 @@ class Main:
                 self.__win2.addstr(0,0,f'{self.__win2.getbegyx()}, {self.__win2.getyx()}, {self.__win2.getparyx()}, {curses.getsyx()}')
                 self.__screen.refresh()
             elif curses.KEY_RIGHT == key:
-#                y, x = self.__win2.getyx()
                 y, x = self.__win2.getbegyx()
                 x += 1 if x < curses.COLS-self.__win2.getmaxyx()[1] else 0
                 self.__panel2.move(y, x)
