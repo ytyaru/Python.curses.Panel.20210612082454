@@ -2,7 +2,6 @@
 # coding: utf8
 import os, curses, curses.panel
 
-# stdscrのsubwin()をpanelにする。キーで階層を入れ替える。
 # newwinをpanelにして重ね合わせる。矢印キーで座標移動し、PgUp/PgDnでZ軸を入れ替える。
 class Main:
     def __init__(self, screen, msg, color_index=1):
